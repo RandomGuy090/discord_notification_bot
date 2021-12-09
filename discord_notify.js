@@ -10,6 +10,11 @@ const myEmitter = new EventEmitter();
 const controller = new AbortController();
 const closeTimeout = 5000;
 
+
+const JsonInvalidResponse = `{
+  content; "<message here>"
+}\n`
+
 // variables
 
 let PORT = 45454; 
@@ -70,7 +75,21 @@ function initSocket(){
     // creating socket server 
     var server = net.createServer(function(socket) {
       socket.on('data', function(data) {
-       CHANNEL.send(data.toString());
+        // data = JSON.parse(data)
+        var msg;
+        data = data.toString()        
+        try{ 
+          msg = JSON.parse(data)
+        
+        }catch(e){
+          console.log(e)
+          socket.write(JsonInvalidResponse)
+          msg = {content: ""} ;
+        }
+
+        if (msg.content != ""){
+           CHANNEL.send(msg.content);
+        }
       });
     });
     server.listen({
@@ -83,7 +102,21 @@ function initSocket(){
   
   }else{
     // send discord
-    CHANNEL.send(message.toString())
+    var msg;
+    message = message.toString()        
+    try{ 
+      msg = JSON.parse(message)
+    
+    }catch(e){
+      console.log(e)
+      socket.write(JsonInvalidResponse)
+      msg = {content: ""} ;
+    }
+
+    if (msg.content != ""){
+       CHANNEL.send(msg.content);
+    }
+
     myEmitter.emit('event:exit_all', data => {
       console.log("event exit")
     });
