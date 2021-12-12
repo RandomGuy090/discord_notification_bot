@@ -23,6 +23,7 @@ let CHANNEL;
 let message;
 let TOKEN;
 let CLOSE = false;
+let OWNER = false;
 
 // args parser
 
@@ -49,6 +50,9 @@ for (var i = 0; i<myArgs.length; i++){
 
     case "-t" || "--token":
         TOKEN = myArgs[i+1];
+        break;
+    case "-o" || "--owner":
+        OWNER = true;
         break;
 
     case "-h" || "--help":
@@ -112,7 +116,19 @@ function initSocket(){
     }
 
     if (msg.content != ""){
-       CHANNEL.send(msg.content);
+       // CHANNEL.send(msg.content);
+        
+        if(OWNER){
+          var ownerId = CHANNEL.guild.ownerId;
+          client.users.fetch(ownerId, false).then((user) => {
+                user.send(msg.content);
+               });
+        }else{
+          CHANNEL.send(msg.content);
+        }
+
+
+
     }
 
     myEmitter.emit('event:exit_all', data => {
