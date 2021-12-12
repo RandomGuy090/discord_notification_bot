@@ -82,7 +82,6 @@ function initSocket(){
           msg = JSON.parse(data)
         
         }catch(e){
-          console.log(e)
           socket.write(JsonInvalidResponse)
           msg = {content: ""} ;
         }
@@ -108,8 +107,7 @@ function initSocket(){
       msg = JSON.parse(message)
     
     }catch(e){
-      console.log(e)
-      socket.write(JsonInvalidResponse)
+      console.log(JsonInvalidResponse)
       msg = {content: ""} ;
     }
 
