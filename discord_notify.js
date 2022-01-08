@@ -66,6 +66,7 @@ for (var i = 0; i<myArgs.length; i++){
   -m  --message   message content
   -t  --token     discord bot token
   -h  --help      printout help message
+  -o  --owner     send to server owner
         `);
       process.exit(0);
       break;
