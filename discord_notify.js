@@ -73,7 +73,7 @@ for (var i = 0; i<myArgs.length; i++){
   }
 }
 
-function sendToOwner(){
+function sendToOwner(msg){
   var ownerId = CHANNEL.guild.ownerId;
       client.users.fetch(ownerId, false).then((user) => {
         user.send(msg.content);
@@ -99,7 +99,7 @@ function initSocket(){
 
         if (msg.content != ""){
           if(OWNER){
-            sendToOwner();
+            sendToOwner(msg);
             
           }else{
             CHANNEL.send(msg.content);
@@ -131,7 +131,7 @@ function initSocket(){
        // CHANNEL.send(msg.content);
         
         if(OWNER){
-          sendToOwner();
+          sendToOwner(msg);
         }else{
           CHANNEL.send(msg.content);
         }
