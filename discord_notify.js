@@ -73,6 +73,12 @@ for (var i = 0; i<myArgs.length; i++){
   }
 }
 
+function sendToOwner(){
+  var ownerId = CHANNEL.guild.ownerId;
+      client.users.fetch(ownerId, false).then((user) => {
+        user.send(msg.content);
+      });
+}
 // creating socket server
 function initSocket(){
   console.log("socket init")
@@ -92,7 +98,12 @@ function initSocket(){
         }
 
         if (msg.content != ""){
-           CHANNEL.send(msg.content);
+          if(OWNER){
+            sendToOwner();
+            
+          }else{
+            CHANNEL.send(msg.content);
+          }
         }
       });
     });
@@ -120,15 +131,10 @@ function initSocket(){
        // CHANNEL.send(msg.content);
         
         if(OWNER){
-          var ownerId = CHANNEL.guild.ownerId;
-          client.users.fetch(ownerId, false).then((user) => {
-                user.send(msg.content);
-               });
+          sendToOwner();
         }else{
           CHANNEL.send(msg.content);
         }
-
-
 
     }
 
