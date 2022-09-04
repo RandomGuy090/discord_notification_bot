@@ -118,13 +118,15 @@ function initSocket(){
   }else{
     // send discord
     var msg;
-    message = message.toString()        
+    message = message.toString()   
+    console.log(message)     /**/
     try{ 
       msg = JSON.parse(message)
     
     }catch(e){
-      console.log(JsonInvalidResponse)
-      msg = {content: ""} ;
+      // console.log(JsonInvalidResponse)
+      msg = {}
+      msg.content = message ;
     }
 
     if (msg.content != ""){
